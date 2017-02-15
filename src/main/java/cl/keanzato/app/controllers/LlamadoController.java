@@ -32,16 +32,19 @@ public class LlamadoController {
     @Path("/")
     public List<Llamado> listaLlamados(){
         Llamado l1 = new Llamado();
+        l1.setId(1);
         l1.setAsunto("Asunto 1");
         l1.setMensage("Mensage 1");
         l1.setEstado(Estado.NUEVO);
         
         Llamado l2 = new Llamado();
+        l2.setId(2);
         l2.setAsunto("Asunto 2");
         l2.setMensage("Mensage 2");
         l2.setEstado(Estado.NUEVO);
         
         Llamado l3 = new Llamado();
+        l3.setId(3);
         l3.setAsunto("Asunto 3");
         l3.setMensage("Mensage 3");
         l3.setEstado(Estado.FECHADO);
