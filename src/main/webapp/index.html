@@ -18,13 +18,13 @@
                        ng-model="controller.llamado.id"
                        disabled><br>
 
-                <label for="assunto">Assunto: </label>
+                <label for="assunto">Asunto: </label>
                 <input type="text" id="assunto" ng-model="controller.llamado.asunto"><br>
 
-                <label for="mensagem">Mensagem: </label>
+                <label for="mensagem">Mensaje: </label>
                 <textarea rows="4" id="mensagem" ng-model="controller.llamado.mensage"></textarea><br>
 
-                <button type="button" data-ng-click="controller.salvar()">Salvar</button>
+                <button type="button" data-ng-click="controller.salvar()">Guardar</button>
                 <button type="button" data-ng-click="controller.llamado = undefined">Cancelar</button>
             </div>
             <div style="border: 1px solid black;"
@@ -34,10 +34,10 @@
                 <table border="1">
                     <tr>
                         <th>ID</th>
-                        <th>Assunto</th>
-                        <th>Status</th>
-                        <th>Mensagem</th>
-                        <th>Opções</th>
+                        <th>Asunto</th>
+                        <th>Estado</th>
+                        <th>Mensaje</th>
+                        <th>Opciones</th>
                     </tr>
                     <tr data-ng-repeat="llamado in controller.llamados">
                         <td>{{llamado.id}}</td>

@@ -5,6 +5,7 @@
  */
 package cl.keanzato.app.infra;
 
+import cl.keanzato.app.exceptions.ConexionException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,52 +16,50 @@ import java.util.logging.Logger;
  *
  * @author k.zambrano.torres
  */
-public class ConexionMySqlJDBC implements ConexionJDBC{
+public class ConexionMySqlJDBC{
 
-    private Connection conn = null;
-    
-    public ConexionMySqlJDBC() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.jdbc.Driver");
-        this.conn = (Connection) DriverManager.getConnection(
+    private static ConexionMySqlJDBC _conexion;
+	private Connection connection;
+
+	/**
+	 * 
+	 */
+	private ConexionMySqlJDBC() {
+	}
+
+	public static ConexionMySqlJDBC getInstancia() {
+		if (_conexion == null) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = (Connection) DriverManager.getConnection(
 						"jdbc:mysql://localhost/llamados", 
 						"root",
 						"");
-        this.conn.setAutoCommit(false);
-    }
-    @Override
-    public Connection getConnection() {
-        return this.conn;
-    }
+				ConexionMySqlJDBC conexion = new ConexionMySqlJDBC();
+				conexion.setConnection(conn);
+				_conexion = conexion;
+			} catch (Exception e) {
+				throw new ConexionException("Ocurrio un error"
+						+ " al conectar con la base de datos", e);
+			}
+		} 
+		return _conexion;
+		
+	}
+        
+        /**
+	 * @return the connection
+	 */
+	public Connection getConnection() {
+		return connection;
+	}
 
-    @Override
-    public void close() {
-        if(this.conn!=null){
-            try{
-                this.conn.close();
-            }catch(SQLException es){
-                Logger.getLogger(ConexionMySqlJDBC.class.getName()).log(Level.SEVERE, null, es);
-            }
-        }
-    }
-
-    @Override
-    public void commit() throws SQLException {
-        this.conn.commit();
-        this.close();
-    }
-
-    @Override
-    public void rollback() {
-        if(this.conn != null){
-            try{
-                this.conn.rollback();
-            }catch(SQLException ex){
-                Logger.getLogger(ConexionMySqlJDBC.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                this.close();
-            }
-        }
-    }
+	/**
+	 * @param connection the connection to set
+	 */
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
     
     
 }

@@ -14,7 +14,7 @@ public class Llamado {
     private long id;
     private String asunto;
     private String mensage;
-    private Estado estado;
+    private String estado;
 
     public long getId() {
         return id;
@@ -40,18 +40,35 @@ public class Llamado {
         this.mensage = mensage;
     }
 
-    public Estado getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
+    public Llamado(long id, String asunto, String mensage, String estado) {
+        this.id = id;
+        this.asunto = asunto;
+        this.mensage = mensage;
+        this.estado = estado;
+    }
+    
+    public Llamado(String asunto, String mensage, String estado) {
+        this.asunto = asunto;
+        this.mensage = mensage;
+        this.estado = estado;
+    }
+
+    public Llamado() {
+    }
+
+    
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 7;
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -77,6 +94,7 @@ public class Llamado {
     public String toString() {
         return "Llamado{" + "id=" + id + ", asunto=" + asunto + ", mensage=" + mensage + ", estado=" + estado + '}';
     }
+
     
     
 }

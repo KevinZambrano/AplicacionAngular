@@ -7,7 +7,7 @@
 
 angular.module("HelpApp", [])
         .value('urlBase', 'http://localhost:8080/mavenproject3/rest/')
-        .controller("LlamadoController", function ($http, urlBase) {
+        .controller("LlamadoController", function ($http, urlBase,$location) {
             var self = this;
             self.usuario = 'Kevin Zambrano';
 
@@ -24,7 +24,7 @@ angular.module("HelpApp", [])
                 if (self.llamado.id) {
                     metodo = 'PUT';
                 }
-
+                
                 $http({
                     method: metodo,
                     url: urlBase + 'llamados/',
@@ -47,14 +47,23 @@ angular.module("HelpApp", [])
                     method: 'DELETE',
                     url: urlBase + 'llamados/' + self.llamado.id + '/'
                 }).then(function successCallback(response) {
-                    self.atualizarTabela();
+                    self.actualizarTabela();
                 }, function errorCallback(response) {
                     self.ocorreuErro();
                 });
             };
 
-            self.concluir = function () {
-                alert("TO DO");
+            self.concluir = function (llamado) {
+                self.llamado = llamado;
+                
+                $http({
+                    method: 'PUT',
+                    url: urlBase + 'llamados/' + self.llamado.id + '/'
+                }).then(function successCallback(response){
+                    self.actualizarTabela();
+                }, function errorCallback(response){
+                    self.ocorreuErro();
+                });
             };
 
             self.ocorreuErro = function () {
@@ -68,6 +77,7 @@ angular.module("HelpApp", [])
                 }).then(function successCallback(response) {
                     self.llamados = response.data;
                     self.llamado = undefined;
+                    $location.path('/')
                 }, function errorCallback(response) {
                     self.ocorreuErro();
                 });
